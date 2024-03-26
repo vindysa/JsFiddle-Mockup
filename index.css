@@ -1,0 +1,33 @@
+.form-line {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-line input {
+    flex: 1;
+    margin-right: 5px;
+  }
+    
+ .quote-tool-title {
+    color: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.narrow-row{
+  margin-bottom: 0 !important;
+}
+
+/* Styling for the product form */
+.product-form-container {
+    background-color: #343a40; /* Matching background color with the top navbar */
+    color: #ffffff; /* Matching text color with the top navbar */
+    padding: 20px;
+}
+.product-form-container .form-table th,
+.product-form-container .form-table td {
+    color: #ffffff; /* Matching text color with the top navbar */
+}
+.product-form-container .form-table th {
+    text-align: center;
+}
