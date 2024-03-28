@@ -170,8 +170,9 @@
       <table class="table form-table">
           <thead>
               <tr>
+                 
                   <th>SKU</th>
-                  <th>Title</th>
+                  <th style="width: 300px">Title</th>
                   <th>Quantity</th>
                   <th>Unit Cost</th>
                   <th>Retail Price</th>
@@ -248,36 +249,49 @@
               <!-- Add more rows as needed -->
           </tbody>
       </table>
-      <div class="container mt-4">
-        <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
-    </div>
+
   </form>
 </div>
 </div>
 
+
 <!-- Shipping Options -->
 <div class="container small-form-container shipping-speed-container">
-  <h4>Shipping options </h4>
-  <form class="form-inline">
+  <div class="row mt-2">
+    <!-- Left Side Column (Shipping Address) -->
+    <div class="col-md-6">
+      <div class="form-column">
+        <h4>Shipping options </h4>
+          <form class="form-inline">
 
-    <select class="ship-speed my-1 mr-sm-2">
-      <option selected>Ship Speed...</option>
-      <option value="1">$4.95 USPS Ground Advantage</option>
-      <option value="2">$9.95 UPS Ground</option>
-      <option value="3">$399.99 Freight</option>
-      <option value="4">$1,000,000.00 Vas Personally Delivers To Your Doorstep!</option>
+          <select class="ship-speed my-1 mr-sm-2">
+            <option selected>Ship Speed...</option>
+            <option value="1">$4.95 USPS Ground Advantage</option>
+            <option value="2">$9.95 UPS Ground</option>
+            <option value="3">$399.99 Freight</option>
+            <option value="4">$1,000,000.00 Vas Personally Delivers To Your Doorstep!</option>
+          </select>
+      </div>
+    </div>
+
+  <!-- Terms & Conditions -->
+  <div class="col-md-6">
+    <div class="form-column">
+    <h4>Terms and Conditions</h4>
+    <select class="terms-and-conditions my-1 mr-sm-2">
+      <option selected>Select Terms...</option>
+      <option value="1">Terms option 1</option>
+      <option value="2">Terms option 2</option>
+      <option value="3">Terms option 3</option>
     </select>
+  </div>
+  </div>
+
+<div class="container mt-4">
+  <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
 </div>
 
-<!-- Terms & Conditions -->
-<div class="container small-form-container terms-and-conditions-container"> 
-  <h4>Terms and Conditions</h4>
-  <select class="terms-and-conditions my-1 mr-sm-2">
-    <option selected>Select Terms...</option>
-    <option value="1">Terms option 1</option>
-    <option value="2">Terms option 2</option>
-    <option value="3">Terms option 3</option>
-  </select>
+</div>
 </div>
 
 
