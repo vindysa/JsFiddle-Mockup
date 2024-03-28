@@ -45,6 +45,7 @@ $("#not-taxable-btn").click(function(){
     var unitCost = fetchUnitCostFromDatabase(productTitle); // Function to simulate database fetch for unit cost
     // Update unit cost input in the same row
     $(this).closest('tr').find('.unit-cost').val('$' + unitCost.toFixed(2)); // Format as currency
+    console.log("The value of unit-cost is now: " + unitCost);
 
     // Simulate fetching retail price from database based on entered product title
     var retailPrice = fetchRetailPriceFromDatabase(productTitle); // Function to simulate database fetch for Retail Price
@@ -53,6 +54,9 @@ $("#not-taxable-btn").click(function(){
 
     // Calculate and update extended line total
     updateExtendedLineTotal($(this).closest('tr'));
+
+    // Calculate and update profit
+    updateProfit($(this).closest('tr'));
 });
 
 // Function to simulate fetching SKU from database
@@ -64,7 +68,7 @@ function fetchSkuFromDatabase(productTitle) {
 // Function to simulate fetching unit cost from database
 function fetchUnitCostFromDatabase(productTitle) {
   // Simulate database fetch (hardcoded value for demonstration)
-  return 80.00;
+  return 40.00;
 }
 
 // Function to simulate fetching retail price from database
@@ -81,29 +85,33 @@ function submitToDatabase(price) {
 
 // Increment quantity button
 $('.increment-btn').click(function() {
-  var inputField = $(this).closest('.input-group').find('.quantity');
+  var inputField = $(this).closest('tr').find('.quantity');
   var currentValue = parseInt(inputField.val());
   if (!isNaN(currentValue)) {
       inputField.val(currentValue + 1);
   } else {
       inputField.val(1);
   }
+  updateExtendedLineTotal($(this).closest('tr'));
+  updateProfit($(this).closest('tr'));
 });
 
 // Decrement quantity button
 $('.decrement-btn').click(function() {
-  var inputField = $(this).closest('.input-group').find('.quantity');
+  var inputField = $(this).closest('tr').find('.quantity');
   var currentValue = parseInt(inputField.val());
   if (!isNaN(currentValue) && currentValue > 0) {
       inputField.val(currentValue - 1);
   } else {
       inputField.val(0);
   }
+  updateExtendedLineTotal($(this).closest('tr'));
+  updateProfit($(this).closest('tr'));
 });
 
 $('#submitBtn').click(function() {
   // Get the value entered in the "Price ($)" field
-  var price = parseFloat($('.price-input').val());
+  var price = parseFloat($('.price').val());
   
   // Check if something has been entered
   if (isNaN(price)) {
@@ -116,21 +124,43 @@ $('#submitBtn').click(function() {
 });
 
 // Event listener for Price ($) and Quantity inputs
-$('.price-input, .quantity').on('input', function() {
+$('.price, .quantity').on('input', function() {
   updateExtendedLineTotal($(this).closest('tr'));
+  updateProfit($(this).closest('tr'));
 });
 
 // Function to update the Extended (Line Total) based on Price ($) and Quantity
 function updateExtendedLineTotal(row) {
   var price = parseFloat(row.find('.price').val());
   var quantity = parseInt(row.find('.quantity').val());
-
-  console.log(price, quantity);
   
   if (!isNaN(price) && !isNaN(quantity)) {
       var extendedTotal = price * quantity;
-      row.find('.extended-line-total').val(extendedTotal.toFixed(2));
+      row.find('.extended-line-total').val('$' + extendedTotal.toFixed(2));
   } else {
       row.find('.extended-line-total').val('');
   }
+}
+
+// Function to update Profit based on ( (Price - Unit Cost) / Unit Cost) Format like $76 (10%)
+function updateProfit(row) {
+  var price = parseFloat(row.find('.price').val());
+  var currentUnitCostValue = ( row.find('.unit-cost').val() );
+  var unitCost = parseFloat(removeDollarSign(currentUnitCostValue));
+  var quantity = parseInt(row.find('.quantity').val());
+
+  if (!isNaN(price) && !isNaN(unitCost) && !isNaN(quantity)) {
+    var profitDollars  = ((price - unitCost) * quantity);
+    var profitPercent = (((price - unitCost) / unitCost) * 100);
+    var profitDollarsPerItem = ((price - unitCost) / quantity);
+    row.find('.profit').val('$' + profitDollars.toFixed(2) + ' (' + profitPercent.toFixed(1) + '%)');
+  } else {
+    row.find('.profit').val('0');
+  }
+}
+
+// Cleans up the $ from unit cost
+function removeDollarSign(rawUnitCostNumber) {
+  var rawUnitCostString = rawUnitCostNumber.toString().slice(1, 6);
+  return (rawUnitCostString);
 }

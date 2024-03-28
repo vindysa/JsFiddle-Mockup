@@ -15,7 +15,7 @@
 }
 
 .narrow-row{
-  margin-bottom: 0 !important;
+  margin-bottom: 0px !important;
 }
 
 /* Styling for the product form */
@@ -30,4 +30,8 @@
 }
 .product-form-container .form-table th {
     text-align: center;
+}
+
+.terms-and-conditions-container{
+  margin-top: 30px !important;
 }
