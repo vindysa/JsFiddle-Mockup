@@ -39,18 +39,18 @@ $("#not-taxable-btn").click(function(){
     var productTitle = $(this).val();
     var sku = fetchSkuFromDatabase(productTitle); // Function to simulate database fetch for SKU
     // Update SKU input in the same row
-    $(this).closest('tr').find('td:eq(0) input').val(sku);
+    $(this).closest('tr').find('sku-input').html(sku);
 
     // Simulate fetching unit cost from database based on entered product title
     var unitCost = fetchUnitCostFromDatabase(productTitle); // Function to simulate database fetch for unit cost
     // Update unit cost input in the same row
-    $(this).closest('tr').find('.unit-cost').val('$' + unitCost.toFixed(2)); // Format as currency
-    console.log("The value of unit-cost is now: " + unitCost);
+    $(this).closest('tr').find('.unit-cost').html('$' + unitCost.toFixed(2)); // Format as currency
+    console.log("The html of unit-cost is now: " + unitCost);
 
     // Simulate fetching retail price from database based on entered product title
     var retailPrice = fetchRetailPriceFromDatabase(productTitle); // Function to simulate database fetch for Retail Price
     // Update retail price input in the same row
-    $(this).closest('tr').find('.retail-price').val('$' + retailPrice.toFixed(2)); // Format as currency
+    $(this).closest('tr').find('.retail-price').html('$' + retailPrice.toFixed(2)); // Format as currency
 
     // Calculate and update extended line total
     updateExtendedLineTotal($(this).closest('tr'));
@@ -133,19 +133,19 @@ $('.price, .quantity').on('input', function() {
 function updateExtendedLineTotal(row) {
   var price = parseFloat(row.find('.price').val());
   var quantity = parseInt(row.find('.quantity').val());
-  
+
   if (!isNaN(price) && !isNaN(quantity)) {
       var extendedTotal = price * quantity;
-      row.find('.extended-line-total').val('$' + extendedTotal.toFixed(2));
+      row.find('.extended-line-total').html('$' + extendedTotal.toFixed(2));
   } else {
-      row.find('.extended-line-total').val('');
+      row.find('.extended-line-total').html('');
   }
 }
 
 // Function to update Profit based on ( (Price - Unit Cost) / Unit Cost) Format like $76 (10%)
 function updateProfit(row) {
   var price = parseFloat(row.find('.price').val());
-  var currentUnitCostValue = ( row.find('.unit-cost').val() );
+  var currentUnitCostValue = ( row.find('.unit-cost').html() || row.find('.unit-cost').val() );
   var unitCost = parseFloat(removeDollarSign(currentUnitCostValue));
   var quantity = parseInt(row.find('.quantity').val());
 
@@ -153,9 +153,9 @@ function updateProfit(row) {
     var profitDollars  = ((price - unitCost) * quantity);
     var profitPercent = (((price - unitCost) / unitCost) * 100);
     var profitDollarsPerItem = ((price - unitCost) / quantity);
-    row.find('.profit').val('$' + profitDollars.toFixed(2) + ' (' + profitPercent.toFixed(1) + '%)');
+    row.find('.profit').html('$' + profitDollars.toFixed(2) + ' (' + profitPercent.toFixed(1) + '%)');
   } else {
-    row.find('.profit').val('0');
+    row.find('.profit').html('0');
   }
 }
 
